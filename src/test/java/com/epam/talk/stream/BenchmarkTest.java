@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 @BenchmarkMode(value = Mode.Throughput)
 public class BenchmarkTest {
 
-    private static final int COUNT = 20;
-    private static final int CONSUME = 256;
+    private static final int COUNT = 1000;
+    private static final int CONSUME = 16;
 
     private List<Integer> list;
 

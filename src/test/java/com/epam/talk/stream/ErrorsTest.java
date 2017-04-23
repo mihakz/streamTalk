@@ -55,4 +55,6 @@ public class ErrorsTest {
             System.out.println("Processing: " + processing);
         }
     }
+
+    //careful with nested parallel streams
 }
