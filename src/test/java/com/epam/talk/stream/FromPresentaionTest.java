@@ -51,4 +51,14 @@ public class FromPresentaionTest {
 
         System.out.println(result);
     }
+
+//    @Benchmark
+//    public int[] measureSequential() {
+//        return IntStream.range(1, COUNT + 1)
+//                .map(x -> {
+////                    Blackhole.consumeCPU(CONSUME);
+//                    return x++;
+//                })
+//                .toArray();
+//    }
 }
