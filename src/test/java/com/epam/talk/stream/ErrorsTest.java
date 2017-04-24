@@ -3,11 +3,13 @@ package com.epam.talk.stream;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Mikhail_Kantserov on 21/04/2017.
@@ -44,7 +46,7 @@ public class ErrorsTest {
     }
 
     @Test
-    public void testNotThreadSafeStructure() {
+    public void testNotThreadSafeStructureAndStatefull() {
         for (int i = 1; i < 10; i++) {
             List<String> processing = new ArrayList<>();
             list.stream()
@@ -53,6 +55,26 @@ public class ErrorsTest {
                     .peek(x -> processing.add(String.valueOf(x)))
                     .collect(Collectors.toList());
             System.out.println("Processing: " + processing);
+        }
+    }
+
+    @Test
+    public void testWithImpact() {
+        Tuple<BigInteger, BigInteger> seed = new Tuple<>(BigInteger.ONE, BigInteger.ONE);
+        UnaryOperator<Tuple<BigInteger, BigInteger>> f = x -> new Tuple<>(x.second, x.first.add(x.second));
+        Stream.iterate(seed, f)//.parallel()
+                .map(x -> x.first)
+                .peek(System.out::println)
+                .filter(x -> x.intValue() > 1_000_000)
+                .findAny().get();
+    }
+
+    class Tuple<T, U> {
+        public final T first;
+        public final U second;
+        public Tuple(T t, U u) {
+            this.first = t;
+            this.second = u;
         }
     }
 
